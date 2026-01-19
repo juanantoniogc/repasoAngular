@@ -1,0 +1,44 @@
+<ng-template #noTareas>
+    <p>Actualmente no tienes ninguna tarea</p>
+</ng-template>
+
+
+<ng-container *ngIf="tareas.length!==0; else noTareas">
+<table class="table">
+    <tbody>
+        <tr *ngFor="let tarea of tareas">
+            <td>{{ tarea.nombre }}</td>
+            <td>{{ tarea.descripcion }}</td>
+            <td [ngClass]="{
+                'bg-success text-white': tarea.prioridad === 'Baja',
+                'bg-warning text-dark': tarea.prioridad === 'Media',
+                'bg-danger text-white': tarea.prioridad === 'Alta'
+            }">
+            {{tarea.prioridad}}
+            
+            <i [ngClass]="{
+                'bi bi-arrow-up-circle-fill':tarea.prioridad!=='Alta' && tarea.estado!=='Completada' ,
+                'bi bi-arrow-down-circle-fill':tarea.prioridad!=='Baja' && tarea.estado!=='Completada'}">
+            </i>
+            <i [ngClass]="{
+                'bi bi-arrow-down-circle-fill':tarea.prioridad!=='Baja' && tarea.estado!=='Completada'}">
+            </i>
+            </td>
+            <td [ngClass]="{
+                'bg-success text-white': tarea.estado === 'Completada',
+                'bg-warning text-dark': tarea.estado === 'En progreso',
+                'bg-danger text-white': tarea.estado === 'Pendiente'
+            }">
+            {{ tarea.estado }}
+            <i
+                [ngClass]="{'bi bi-play-fill':tarea.estado==='Pendiente',
+                'bi bi-check-lg':tarea.estado==='En progreso',
+                'bi bi-arrow-return-right':tarea.estado==='Completada'}">
+            </i>
+            </td>
+            <td>{{ tarea.fechaExpiracion }}</td>
+            <td><i class="bi bi-pencil-square"></i> <i class="bi bi-trash"></i></td>
+        </tr>
+    </tbody>
+</table>
+</ng-container>
